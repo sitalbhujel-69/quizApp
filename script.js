@@ -18,7 +18,7 @@ const getdata =async  ()=>{
 }
 
 function show(data){
-    console.log(data[0])
+    
     let ans = [...data[0].incorrectAnswers,data[0].correctAnswer]
     let ans2 = ans.sort()
     console.log(ans2)
@@ -28,7 +28,7 @@ function show(data){
     }
 
 }
-let click = 0
+
 function check(data){
     
     answers.forEach((element)=>{

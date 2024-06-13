@@ -5,17 +5,20 @@ const score = document.querySelector("#num")
 
 const next = document.getElementById("next")
 
+
 const getdata =async  ()=>{
     let response = await fetch(API)
     let data = await response.json()
     show(data)
     check(data)
-    disable(false)
     remove()
+    disable(false)
+    next.disabled = true
 
 }
 
 function show(data){
+    console.log(data[0])
     let ans = [...data[0].incorrectAnswers,data[0].correctAnswer]
     let ans2 = ans.sort()
     console.log(ans2)
@@ -27,17 +30,24 @@ function show(data){
 }
 let click = 0
 function check(data){
+    
     answers.forEach((element)=>{
+        let correct = data[0].correctAnswer
+        
         element.addEventListener("click",(e)=>{
-            if(e.target.innerHTML == data[0].correctAnswer){
+            if(e.target.innerHTML == correct){
+                remove()
                 e.target.classList.add("green")
                 num.innerHTML = parseInt(num.innerHTML)+1
-
                 }
             else{
-                e.target.classList.add("red")
+                remove()
+                e.target.classList.add("red") 
+                some(data)
+                
             }
         disable(true)
+        next.disabled = false
         })
     })
 }
@@ -54,9 +64,16 @@ function remove(){
             e.classList.remove("green")
         }
 
-        else if(e.classList.contains('red')){
+         if(e.classList.contains('red')){
             e.classList.remove('red')
         }
     })
+}
+function some (data){
+    for(let i = 0; i<4;i++){
+        if(answers[i].innerHTML == data[0].correctAnswer){
+            answers[i].classList.add("green")
+        }
+    }
 }
 next.addEventListener("click",getdata)
